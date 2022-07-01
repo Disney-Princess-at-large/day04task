@@ -1,11 +1,6 @@
 <template>
   <div>
-    <span>姓：</span>
-    <input type="text" v-model="Firstname"><br>
-    <span>名：</span>
-    <input type="text" v-model="Secname"><br>
-    <span>全称：</span>
-    <input type="text" v-model="Fullname"><br>
+    <input type="text" v-model.lazy='name'>
   </div>
 </template>
 
@@ -13,21 +8,26 @@
 export default {
 data() {
   return {
-   Firstname:'',
-   Secname:"",
+    name:'123'
   }
 },
-computed:{
- Fullname:{
-  set(val){
-  const arr=val.split(".");
-  this.Firstname=arr[0]
-  this.Secname=arr[1]
-  },
-  get(){
-    return this.Firstname ?this.Firstname+'.'+this.Secname :''
+// 目标: 侦听到name值的改变
+  /*
+  语法:
+    watch: {
+      变量名 (newVal, oldVal){
+        // 变量名对应值改变这里自动触发
+        // newVal 是改变之后的值
+        // oldVal 是改变之前的值  
+      }
+    }
+  */
+watch:{
+  name(newVal,oldVal){
+  // newVal: 当前最新值
+  // oldVal: 上一刻值
+    console.log(newVal,oldVal);
   }
- }
 }
 }
 </script>
