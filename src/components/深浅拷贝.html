@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>document</title>
+</head>
+
+<body>
+    <script type="text/javascript">
+
+
+
+
+        let map1 = new Map();
+
+        map1.set({ a: 1 }, 2)
+        map1.set([1, 2], 3)
+        map1.set(1, 4)
+        map1.set('1', '12')
+        let arr = [...map1.keys()]
+        // console.log(arr);
+
+        
+
+        // ----------------旧数据     新数据
+        const deepClone = (target, map = new Map()) => {
+            // 补全代码
+            let arr = [...target.keys()]
+            arr.forEach(item => map.set(item, target.get(item)))
+            return map
+
+        }
+        console.log(deepClone(map1));
+
+
+
+
+        // }
+        // for (var key in oldobj) {
+        //     var item = oldobj[key]
+        //     if (item instanceof Array) {
+        //         obj[key] = []
+        //         deepClone(obj[key], item)
+        //     } else if (item instanceof Object) {
+        //         obj[key] = {}
+        //         deepClone(obj[key], item)
+        //     } else {
+        //         obj[key] = oldobj[key]
+        //     }
+        // }
+    </script>
+</body>
+
+</html>
