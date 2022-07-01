@@ -3,6 +3,17 @@ import App from './App.vue'
 
 Vue.config.productionTip = false
 
+Vue.filter('toDown', (val) => {
+  return val.toLowerCase()
+})
+
+Vue.filter('toReverse', (val, split) => {
+  return val
+    .split('')
+    .reverse()
+    .join(split || '')
+})
+
 new Vue({
-  render: h => h(App),
+  render: (h) => h(App),
 }).$mount('#app')
