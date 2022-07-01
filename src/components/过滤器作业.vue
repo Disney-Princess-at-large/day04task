@@ -27,7 +27,7 @@ export default {
       return val/num + str
     },
     date:(val,join) => {
-     return val.toLocaleString().replaceAll('/', join).slice(0, 9)
+     return val.toLocaleString().replaceAll('/', join).slice(0, 10).splice(8,0,'0')
     }
   },
 }
