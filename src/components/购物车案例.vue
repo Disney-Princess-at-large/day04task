@@ -80,15 +80,15 @@ export default {
       //  否则更新v-for
       this.$set(this.list[index], 'count', +e.target.value)
     },
-
+      // 提高用户体验点击进入输入框的时候选中数字
+      select(e){
+          e.target.select()
+      },
     // 删除选中商品
     delBtn() {
       this.list = this.list.filter((item) => item.select === false)
     },
 
-    select(e){
-        e.target.select()
-    }
 
   },
 
