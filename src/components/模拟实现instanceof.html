@@ -10,33 +10,23 @@
 
     <script>
 
-        let res = '213' 
-        let res1 = [1,2] 
-        let res2 = 1 
-        let res3 = {a:1}
-        let res4 = true
 
 
+        let arr = [1,2,3]
+        let obj = {}
+        console.log(arr instanceof Array)
 
-        function judge(str){
-            if(typeof str=='string'){
-                return "string"
-            }else if(typeof str=='boolean'){
-                return "boolean"
-            }else if(typeof str=='number'){
-                return "number"
-            }else if(Array.isArray(str)){
-                return "Array"
-            }else if(typeof str=='object'){
-                return "object"
+        function judge(a,b){//a  实例对象    b构造函数
+            let n1 = a.__proto__
+            let n2 = b.prototype
+            while (true) {
+                if(n1 === null)return false;
+                if(n1 === n2)return true;
+                n1 = n1.__proto__
             }
         }
-
-        console.log(judge(res));
-        console.log(judge(res1));
-        console.log(judge(res2));
-        console.log(judge(res3));
-        console.log(judge(res4));
+        console.log(judge(arr,Array));
+        console.log(judge(obj,Object));
     </script>
 </body>
 </html>
