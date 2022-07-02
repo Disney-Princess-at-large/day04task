@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      var a = [1, 2, 3];
+      var b = {};
+      function instance_of(L, R) {
+        //L:左表达式，R:右表达式
+        var O = R.prototype;
+        var L = L.__proto__;
+        while (true) {
+          if (L === null) return false;
+          if (O === L) return true;
+          L = L.__proto__;
+        }
+      }
+      console.log(instance_of(a, Array));
+      console.log(instance_of(b, Object));
+      console.log(instance_of(a, Object));
+      console.log(instance_of(b, Array));
+    </script>
+  </body>
+</html>
