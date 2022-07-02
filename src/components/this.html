@@ -11,16 +11,19 @@
 <body>
 
     <script>
+        function fn() {
+            console.log(this);//window
+        }
         const obj = {
             name: "test",
             a() {
-                console.log(this.a);       
+                console.log(this.a);//obj
                 setTimeout(function () {
-                    console.log(this.a);                
+                    console.log(this.a);//window
                 }, 1000);
             },
             b() {
-                console.log(this);                                     
+                console.log(this);//obj
                 fn();
             },
         };
@@ -29,14 +32,14 @@
 
 
         // a() {
-        //         console.log(this.a);       
+        //         console.log(this.a);
         //         setTimeout(function () {
-        //             console.log(this.a);                
+        //             console.log(this.a);
         //         }, 1000);
         //     },
 
         // b() {
-        //         console.log(this);                                     
+        //         console.log(this);
         //         fn();
         //     },
 
