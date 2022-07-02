@@ -101,12 +101,12 @@ export default {
       },
     },
     allCount() {
-      return this.list.reduce((a, b) => (a = a + b.count), 0);
+      const aa = this.list.filter((ele) => ele.isGow === true);
+      return aa.reduce((a, b) => (a = a + b.count), 0);
     },
     allPrice() {
-      return this.list
-        .reduce((a, b) => (a = a + +b.count * b.price), 0)
-        .toFixed(2);
+      const aa = this.list.filter((ele) => ele.isGow === true);
+      return aa.reduce((a, b) => (a = a + +b.count * b.price), 0).toFixed(2);
     },
   },
   // filters: {
