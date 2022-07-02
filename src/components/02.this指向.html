@@ -14,7 +14,7 @@
       const obj = {
         name: "test",
         a() {
-          console.log(this.a); //a方法本身
+          console.log(this.a); //对象方法调用，this指向该方法所属对象obj,打印出来为a方法本身
           setTimeout(function () {
             console.log(this.a); //underfined
             console.log(this); //定时器函数中的this指向window
