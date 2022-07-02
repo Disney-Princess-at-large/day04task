@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>document</title>
+</head>
+<body>
+
+    <script>
+
+        let res = '213' 
+        let res1 = [1,2] 
+        let res2 = 1 
+        let res3 = {a:1}
+        let res4 = true
+
+
+
+        function judge(str){
+            if(typeof str=='string'){
+                return "string"
+            }else if(typeof str=='boolean'){
+                return "boolean"
+            }else if(typeof str=='number'){
+                return "number"
+            }else if(Array.isArray(str)){
+                return "Array"
+            }else if(typeof str=='object'){
+                return "object"
+            }
+        }
+
+        console.log(judge(res));
+        console.log(judge(res1));
+        console.log(judge(res2));
+        console.log(judge(res3));
+        console.log(judge(res4));
+    </script>
+</body>
+</html>
