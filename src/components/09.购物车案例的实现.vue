@@ -63,17 +63,17 @@ export default {
       this.list=[]
     }
   },
-  // watch:{
-  // list:{
-  //   handler(){
-  //       if(item.count<=1){
-  //           item.count=1
-  //       }
-  //   },
-  //   deep:true,
-  //   immediate:true,
-  //   }
-  // },
+  watch:{
+    "list":{
+    deep:true,
+    handler(oldVal,newVal){
+      console.log(oldVal,newVal);
+        // if(item.count<=1){
+        //     item.count=1
+        // }
+    }
+    }
+  },
  computed: {
      isAll:{
       set(val){
