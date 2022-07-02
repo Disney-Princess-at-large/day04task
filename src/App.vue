@@ -17,7 +17,8 @@
         <td>{{item.price}}</td>
         <td>
         <span @click="item.count<=1 ? 1:item.count--">-</span>
-        <input type="text" v-model.number="item.count" />
+        <input type="text" v-model.number="item.count" @input="change"
+        @click="select"/>
         <span @click="item.count++">+</span>
         </td>
         <td>{{item.price * item.count}}</td>
@@ -61,7 +62,17 @@ export default {
     },
     clear(){
       this.list=[]
-    }
+    },
+    change(e){
+      let num=+e.target.value;
+      // const index=this.list.findIndex(item =>item.id== ele.id)
+      if(num<=1 || isNaN(num)){
+        e.target.value=1
+      }
+    },
+    select(e){
+    e.target.select()
+  },
   },
   // watch:{
   // list:{
