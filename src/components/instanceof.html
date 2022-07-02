@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        /**
+ * 模拟实现 instanceof 
+ * instanceof: 检测构造函数的 prototype 属性是否出现在某个实例对象的原型链上。
+ * @param {object} obj 实例对象
+ * @param {function} cst 构造函数
+ */
+        function foo(obj, cst) {
+
+            // 如果传入的实例不是对象，则直接返回 false
+            if (typeof obj !== "object") {
+                return false;
+            }
+
+            // 获取构造函数上原型
+            const cstPrototpe = cst.prototype;
+            // __proto__ 已经是不标准的获取对象原型的方法，遵守最新ES的规范还是使用 getPrototypeOf
+            let objProto = Object.getPrototypeOf(obj);
+
+            while (true) {
+                // 死循环的出口
+                //因为原型链顶端是 null, 如果到这了还在循环，则证明构造函数的原型并没有出现在实例的原型链上
+                if (objProto === null) {
+                    return false;
+                }
+
+                // 如果原型链上存在该构造函数的原型，则返回 true
+                if (objProto === cstPrototpe) {
+                    return true;
+                    // 否则，进入原型链的下一层
+                } else {
+                    objProto = Object.getPrototypeOf(objProto);
+                }
+            }
+        }
+
+        // 使用一下
+        console.log("" instanceof String);
+        console.log(foo("", String));
+
+        console.log({} instanceof Object);
+        console.log(foo({}, Object));
+
+        function Person(name) {
+            this.name = name;
+        }
+        const p1 = new Person("kiana");
+        console.log(p1 instanceof Person);
+        console.log(foo(p1, Person));
+
+        console.log({ name: "hutao" } instanceof Person);
+        console.log(foo({ name: "hutao" }, Person));
+    </script>
+</body>
+
+</html>
