@@ -1,155 +1,150 @@
 <template>
   <div id="app">
-    <div class="container">
-      <!-- 顶部框模块 -->
-      <div class="form-group">
-        <div class="input-group">
-          <h4>品牌管理</h4>
-        </div>
-      </div>
+    <table class="tb">
+      <tr>
+        <th><input type="checkbox" v-model="isAll" />全选</th>
+        <th>商品</th>
+        <th>单价</th>
+        <th>数量</th>
+        <th>小记</th>
+        <th>操作</th>
+      </tr>
+      <!-- 循环渲染的元素tr -->
+      <tr v-for="item in list" :key="item.id">
+        <td><input type="checkbox" v-model="item.isGow" /></td>
+        <td>{{ item.name }}</td>
+        <td>{{ item.price }}</td>
+        <td>
+          <span>-</span
+          ><input
+            type="text"
+            placeholder="请输入购买数量"
+            v-model.number="item.count"
+          /><span>+</span>
+        </td>
+        <td>{{ item.price * item.count }}</td>
+        <td><button @click="del(item.id)">删除</button></td>
+      </tr>
 
-      <!-- 数据表格 -->
-      <table class="table table-bordered table-hover mt-2">
-        <thead>
-          <tr>
-            <th>编号</th>
-            <th>资产名称</th>
-            <th>价格</th>
-            <th>创建时间</th>
-            <th>操作</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="obj in list" :key="obj.id">
-            <td>{{ obj.id }}</td>
-            <td>{{ obj.name }}</td>
-
-            <!-- 如果价格超过100，就有red这个类 -->
-            <td :class="{ red: obj.price > 100 }">{{ obj.price }}</td>
-            <td>{{ obj.time | formatDate }}</td>
-            <td><a href="#" @click.prevent="delFn(obj.id)">删除</a></td>
-          </tr>
-          <tr style="background-color: #eee">
-            <td>统计:</td>
-            <td colspan="2">总价钱为: {{ allprice }}</td>
-            <td colspan="2">平均价: {{ aveprice }}</td>
-          </tr>
-        </tbody>
-        <!-- 
-        <tfoot >
-          <tr>
-            <td colspan="5" style="text-align: center">暂无数据</td>
-          </tr>
-        </tfoot>
-            -->
-      </table>
-
-      <!-- 添加资产 -->
-      <form class="form-inline" style="display: flex">
-        <div class="form-group">
-          <div class="input-group">
-            <input
-              type="text"
-              class="form-control"
-              placeholder="资产名称"
-              v-model="name"
-            />
-          </div>
-        </div>
-        &nbsp;&nbsp;&nbsp;&nbsp;
-        <div class="form-group">
-          <div class="input-group">
-            <input
-              type="text"
-              class="form-control"
-              placeholder="价格"
-              v-model="price"
-            />
-          </div>
-        </div>
-        &nbsp;&nbsp;&nbsp;&nbsp;
-        <!-- 阻止表单提交 -->
-        <button class="btn btn-primary" @click.prevent="addFn">添加资产</button>
-      </form>
+      <tr v-if="list.length === 0">
+        <td colspan="4">没有数据咯~</td>
+      </tr>
+    </table>
+    <br />
+    <button @click="delChecked">删除选中商品</button>
+    <button @click="delAll">清理购物车</button>
+    <br />
+    <div style="margin-top: 20px">
+      <h2>统计</h2>
+      <p>已经选中商品件数:{{ allCount }}</p>
+      <p>总价:{{ allPrice }}</p>
     </div>
   </div>
 </template>
-<script>
-// 1. 明确需求
-// 2. 标签+样式+默认数据
-// 3. 下载bootstrap, main.js引入bootstrap.css
-// 4. 把list数组 - 铺设表格
-// 5. 修改价格颜色
-import moment from "moment";
 
+<script>
 export default {
   data() {
     return {
-      //   list: [
-      //     { id: 100, name: "外套", price: 199, time: new Date("2010-08-12") },
-      //     { id: 101, name: "裤子", price: 34, time: new Date("2013-09-01") },
-      //     { id: 102, name: "鞋", price: 25.4, time: new Date("2018-11-22") },
-      //     { id: 103, name: "头发", price: 19900, time: new Date("2020-12-12") },
-      //   ],
-      list: JSON.parse(localStorage.getItem("list")) ||[],
-      name: "",
-      price: 0,
+      list: [
+        {
+          id: 1,
+          name: "奔驰",
+          price: 599999,
+          count: "",
+          time: "2020-08-01",
+          isGow: false,
+        },
+        {
+          id: 2,
+          name: "宝马",
+          price: 499999,
+          count: "",
+          time: "2020-08-02",
+          isGow: false,
+        },
+        {
+          id: 3,
+          name: "奥迪",
+          price: 399999,
+          count: "",
+          time: "2020-08-03",
+          isGow: false,
+        },
+      ],
     };
   },
   methods: {
-    addFn() {
-      if (this.name.trim() == "" || this.price == 0) {
-        return alert("产品和价格不能为空");
-      }
-      const id = this.list[this.list.length - 1]
-        ? this.list[this.list.length - 1].id + 1
-        : 100;
-      this.list.push({
-        id,
-        name: this.name,
-        price: this.price,
-        time: new Date(),
-      });
-      this.name = "";
-      this.price = 0;
-    },
-    delFn(id) {
+    del(val) {
+      // 删除按钮 - 得到索引, 删除数组里元素
       const index = this.list.findIndex((ele) => {
-        return id == ele.id;
+        return ele.id == val;
       });
-      console.log(index);
+      // console.log(index);
       this.list.splice(index, 1);
     },
-  },
-  filters: {
-    formatDate(val) {
-      return moment(val).format("YYYY-MM-DD");
+    //删除选中
+    delChecked() {
+      this.list = this.list.filter((ele) => ele.isGow === false);
+    },
+    delAll() {
+      this.list = [];
     },
   },
   computed: {
-    allprice() {
+    isAll: {
+      get() {
+        return this.list.every((ele) => ele.isGow === true);
+      },
+      set(val) {
+        this.list.forEach((ele) => (ele.isGow = val));
+      },
+    },
+    allCount() {
+      return this.list.reduce((a, b) => (a = a + b.count), 0);
+    },
+    allPrice() {
       return this.list
-        .reduce((pre, next) => (pre += +next.price), 0)
+        .reduce((a, b) => (a = a + +b.count * b.price), 0)
         .toFixed(2);
     },
-    aveprice() {
-      return (this.allprice / this.list.length).toFixed(2);
-    },
   },
-  watch: {
-    list: {
-      handler(newVal) {
-        localStorage.setItem("list", JSON.stringify(newVal));
-      },
-      deep: true,
-      immediate: true,
-    },
-  },
+  // filters: {
+  //   rule(val) {
+  //     if (val == !number) {
+  //       alert("err:不能为负数或输入数字小于0");
+  //     }
+  //   },
+  // },
 };
 </script>
 
-<style >
-.red {
-  color: red;
+<style>
+#app {
+  width: 600px;
+  margin: 10px auto;
+}
+
+.tb {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.tb th {
+  background-color: #0094ff;
+  color: white;
+}
+
+.tb td,
+.tb th {
+  padding: 5px;
+  border: 1px solid black;
+  text-align: center;
+}
+
+.add {
+  padding: 5px;
+  border: 1px solid black;
+  margin-bottom: 10px;
 }
 </style>
