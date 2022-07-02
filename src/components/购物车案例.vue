@@ -19,7 +19,7 @@
           ><input
             type="text"
             v-model="item.count"
-            @input="change(item, $event)"
+            @input="change"
             @click="select"
           /><span @click="item.count++">+</span>
         </td>
@@ -67,18 +67,16 @@ export default {
 
     // 输入框改变事件
     // 传入当前对象和事件对象
-    change(ele, e) {
+    change(e) {
       // 获取输入框的内容并转换成数字类型-----若是数字则会转成NAN
       let num = +e.target.value
       // 获取修改的那条数组的索引
-      let index = this.list.findIndex((item) => item.id == ele.id)
       //  判断输入的内容是否小于等于1   或者是否是NAN
       if (num <= 1 || isNaN(num)) {
         // 则强制为1
         e.target.value = 1
       }
-      //  否则更新v-for
-      this.$set(this.list[index], 'count', +e.target.value)
+
     },
       // 提高用户体验点击进入输入框的时候选中数字
       select(e){

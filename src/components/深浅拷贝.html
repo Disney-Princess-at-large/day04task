@@ -1,66 +1,73 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
+ 
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>document</title>
+       
+    <meta charset="UTF-8" />
+       
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+       
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+     
 </head>
+ 
 
 <body>
-    <script type="text/javascript">
+       
+    <script>
+        // 浅拷贝深拷贝 只针对引用类型的数据
+        // 浅拷贝只是拷贝一层，更深层次对象级别的只拷贝引用
+        // 深拷贝是拷贝多层，每一级别的数据都会被拷贝
+        var obj = {
+            id: 1,
+            name: "张三",
+            color: [
+                "red",
+                "green",
+                [1, 2],
+                {
+                    sex: "male",
+                },
+            ],
+            msg: {
+                sex: "male",
+                arr: [],
+            },
+        };
+        var o = {};
 
-
-
-
-        let map1 = new Map();
-
-        map1.set({ a: 1 }, 2)
-        map1.set([1, 2], 3)
-        map1.set(1, 4)
-        map1.set('1', '12')
-        let arr = [...map1.keys()]
-        // console.log(arr);
-        let obj = { a: 1 }
-
-
-        // console.log(map1.__proto__);
-
-        // ----------------旧数据     新数据
-        const deepClone = (target, map = new Map()) => {
-            // 补全代码
-
-            // 判断是否是Map对象
-            if (target.__proto__ == Map) {
-                let arr = [...target.keys()]
-                arr.forEach(item => map.set(item, target.get(item)))
-                return map
+        function deepCopy(newobj, oldobj) {
+            for (var k in oldobj) {
+                //获取属性值
+                var item = oldobj[k];
+                //判断这个数据类型是不是数组
+                if (item instanceof Array) {
+                    newobj[k] = [];
+                    deepCopy(newobj[k], item);
+                    //判断这个数据类型是不是对象
+                } else if (item instanceof Object) {
+                    newobj[k] = {};
+                    deepCopy(newobj[k], item);
+                    //属于简单数据类型,直接赋值
+                } else {
+                    newobj[k] = item;
+                }
             }
-            let clone = Array.isArray(target) ? [] : {};
-
-
         }
-        // console.log(deepClone(map1));
-         console.log(deepClone(obj));
+        deepCopy(o, obj);
+        console.log(obj);
+      // 赋值和深/浅拷贝的区别
+      // 1.当我们把一个对象赋值给一个新的变量时，赋的其实是该对象的在栈中的地址，而不是堆中的数据。
+      // 也就是两个对象指向的是同一个存储空间，无论哪个对象发生改变，其实都是改变的存储空间的内容，因此，两个对象是联动的。
 
+      // 2.浅拷贝：重新在堆中创建内存，拷贝前后对象的基本数据类型互不影响，
+      // 但拷贝前后对象的引用类型因共享同一块内存，会相互影响。
 
-
-
-        // }
-        // for (var key in oldobj) {
-        //     var item = oldobj[key]
-        //     if (item instanceof Array) {
-        //         obj[key] = []
-        //         deepClone(obj[key], item)
-        //     } else if (item instanceof Object) {
-        //         obj[key] = {}
-        //         deepClone(obj[key], item)
-        //     } else {
-        //         obj[key] = oldobj[key]
-        //     }
-        // }
+      // 3.深拷贝：从堆内存中开辟一个新的区域存放新对象，对对象中的子对象进行递归拷贝,拷贝前后的两个对象互不影响。
     </script>
+     
 </body>
 
 </html>
